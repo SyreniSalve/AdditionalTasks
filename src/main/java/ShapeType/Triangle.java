@@ -5,7 +5,10 @@ import lombok.Setter;
 
 import java.util.Scanner;
 
-import static ShapeType.ShapeType.*;
+import static ShapeType.ShapeType.EQUILATERAL_TRIANGLE;
+import static ShapeType.ShapeType.ISOSCELES_TRIANGLE;
+import static ShapeType.ShapeType.NOT_TRIANGLE;
+import static ShapeType.ShapeType.SCALENE_TRIANGLE;
 
 @Setter
 @Getter

@@ -6,8 +6,14 @@ import lombok.Setter;
 
 import java.util.Scanner;
 
-import static ShapeType.ShapeType.*;
-import static ShapeType.ShapeType.SQUARE_WITH_ALL_DIFFERENT_SIDES;
+import static ShapeType.ShapeType.EQUILATERAL_TRIANGLE;
+import static ShapeType.ShapeType.ISOSCELES_TRIANGLE;
+import static ShapeType.ShapeType.KITE;
+import static ShapeType.ShapeType.RECTANGLE;
+import static ShapeType.ShapeType.SCALENE_TRIANGLE;
+import static ShapeType.ShapeType.SQUARE;
+import static ShapeType.ShapeType.SQUARE_WITH_ALL_DIFFERENT_SIDES_OR_CONCAVE_SQUARE;
+import static ShapeType.ShapeType.TRAPEZIUM;
 
 @Getter
 @Setter
@@ -20,7 +26,7 @@ public class Menu {
     private int rectangleCounter;
     private int trapeziumCounter;
     private int kiteCounter;
-    private int squareWithAllDifferentSidesCounter;
+    private int squareWithAllDifferentSidesOrConcaveSquareCounter;
 
     private void printHeader(){
         System.out.println("_______________________________________");
@@ -44,6 +50,7 @@ public class Menu {
             performAction(choice);
         }
     }
+
     private int getInput(){
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
@@ -58,27 +65,24 @@ public class Menu {
     }
 
     private void performAction(int choice){
-        switch (choice){
-            case 1:
-                Triangle triangle = new Triangle();
-                triangle.sidesInput();
-                triangleCounter(triangle);
-                break;
-            case 2:
-                Quadrilateral quadrilateral = new Quadrilateral();
-                quadrilateral.sidesInput();
-                quadrilateralCounter(quadrilateral);
-                break;
-            case 3:
-                exit = true;
-                System.out.println(getTheNumberOfTrianglesOfEachType());
-                System.out.println(getTheNumberOfQuadrilateralOfEachType());
-                System.out.println("\nThank you for using our application.");
-                break;
-            default:
-                System.out.println("An unknown error has occurred");
+        if (choice == 1){
+            Triangle triangle = new Triangle();
+            triangle.sidesInput();
+            triangleCounter(triangle);
+        } else if (choice == 2) {
+            Quadrilateral quadrilateral = new Quadrilateral();
+            quadrilateral.sidesInput();
+            quadrilateralCounter(quadrilateral);
+        } else if (choice == 3) {
+            exit = true;
+            System.out.println(getTheNumberOfTrianglesOfEachType());
+            System.out.println(getTheNumberOfQuadrilateralOfEachType());
+            System.out.println("\nThank you for using our application.");
+        } else {
+            System.out.println("An unknown error has occurred");
         }
     }
+
     public void triangleCounter(Triangle triangle) {
         System.out.print("\nShape form is: ");
         if (triangle.getShapeType().equals(EQUILATERAL_TRIANGLE)){
@@ -95,6 +99,7 @@ public class Menu {
 
         }
     }
+
     public void quadrilateralCounter(Quadrilateral quadrilateral) {
         System.out.print("\nShape form is: ");
         if (quadrilateral.getShapeType().equals(SQUARE)){
@@ -109,25 +114,23 @@ public class Menu {
         } else if (quadrilateral.getShapeType().equals(KITE)){
             kiteCounter += 1;
             System.out.println(KITE + "\n");
-        } else if (quadrilateral.getShapeType().equals(SQUARE_WITH_ALL_DIFFERENT_SIDES)){
-            squareWithAllDifferentSidesCounter += 1;
-            System.out.println(SQUARE_WITH_ALL_DIFFERENT_SIDES + "\n");
+        } else if (quadrilateral.getShapeType().equals(SQUARE_WITH_ALL_DIFFERENT_SIDES_OR_CONCAVE_SQUARE)){
+            squareWithAllDifferentSidesOrConcaveSquareCounter += 1;
+            System.out.println(SQUARE_WITH_ALL_DIFFERENT_SIDES_OR_CONCAVE_SQUARE + "\n");
         } else {
             System.out.println("It's not a quadrilateral.");
         }
     }
+
     public String getTheNumberOfTrianglesOfEachType(){
-        return "\nCreated triangles: \n" +
-                EQUILATERAL_TRIANGLE + " - " + equilateralTriangleCounter + ".\n" +
-                ISOSCELES_TRIANGLE + " - " + isoscelesTriangleCounter + ".\n" +
-                SCALENE_TRIANGLE + " - " + scaleneTriangleCounter + ".";
+        return String.format("\nCreated triangles:\nEquilateral triangle - %d.\nIsosceles triangle - %d." +
+                        "\nScalene triangle - %d.",
+                equilateralTriangleCounter,isoscelesTriangleCounter, scaleneTriangleCounter);
     }
+
     public String getTheNumberOfQuadrilateralOfEachType(){
-        return "\nCreated quadrilateral: \n" +
-                SQUARE + " - " + squareCounter + ".\n" +
-                RECTANGLE + " - " + rectangleCounter + ".\n" +
-                TRAPEZIUM + " - " + trapeziumCounter + ".\n" +
-                KITE + " - " + kiteCounter + ".\n" +
-                SQUARE_WITH_ALL_DIFFERENT_SIDES + " - " + squareWithAllDifferentSidesCounter + ".";
+        return String.format("\nCreated quadrilaterals:\nSquare - %d.\nRectangle - %d.\nTrapezium - %d.\nKite - %d." +
+                "\nSquare with all different sides or concave square - %d.",
+                squareCounter,rectangleCounter,trapeziumCounter,kiteCounter,squareWithAllDifferentSidesOrConcaveSquareCounter);
     }
 }

@@ -7,7 +7,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import static ShapeType.ShapeType.*;
+import static ShapeType.ShapeType.KITE;
+import static ShapeType.ShapeType.NOT_QUADRILATERAL;
+import static ShapeType.ShapeType.RECTANGLE;
+import static ShapeType.ShapeType.SQUARE;
+import static ShapeType.ShapeType.SQUARE_WITH_ALL_DIFFERENT_SIDES_OR_CONCAVE_SQUARE;
+import static ShapeType.ShapeType.TRAPEZIUM;
 
 @Setter
 @Getter
@@ -31,21 +36,24 @@ public class Quadrilateral implements Imputed, Ascertainable {
         System.out.print("Please input side D: ");
         setSideD(scanner.nextFloat());
     }
+
     public boolean isSquare(){
         return sideA == sideB &&  sideB == sideC && sideC == sideD && sideD == sideA;
     }
+
     public boolean isRectangle(){
         return sideA == sideC && sideB == sideD;
     }
+
     public boolean isTrapezium(){
-        if (!isQuadrilateral()){
-            return false;
-        }
-        return sideA != sideC && sideB == sideD || sideB != sideD && sideA == sideC;
+        return  sideA < sideC && sideC > sideB && sideB > sideA && sideB == sideD || sideA > sideC && sideA > sideB && sideB > sideC && sideB == sideD ||
+                sideB < sideD && sideD > sideA && sideA > sideB && sideA == sideC || sideB > sideD && sideB > sideA && sideA > sideD && sideA == sideC;
     }
+
     public boolean isKite(){
         return sideA == sideB && sideC == sideD || sideB == sideC && sideD == sideA;
     }
+
     public boolean isQuadrilateral(){
         float longest = sideA;
         float sumShorterSides = 0;
@@ -62,19 +70,21 @@ public class Quadrilateral implements Imputed, Ascertainable {
         }
         return longest < sumShorterSides;
     }
+
     @Override
     public ShapeType getShapeType(){
         if (isSquare()) {
             return SQUARE;
         } else if (isRectangle()) {
             return RECTANGLE;
-        } else if (isTrapezium()){
-            return TRAPEZIUM;
         } else if (isKite()){
             return KITE;
         } else {
             if (isQuadrilateral()) {
-                return SQUARE_WITH_ALL_DIFFERENT_SIDES;
+                if (isTrapezium()){
+                    return TRAPEZIUM;
+                }
+                return SQUARE_WITH_ALL_DIFFERENT_SIDES_OR_CONCAVE_SQUARE;
             } else {
                 return NOT_QUADRILATERAL;
             }
